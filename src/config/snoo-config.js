@@ -11,12 +11,12 @@ const identifier = {
 }
 
 const config = {
-    requestDelay: 2000,
+    requestDelay: 20000,
     warnings: true,
     continueAfterRatelimitError: false,
     retryErrorCodes: [502, 504, 522],
     maxRetryAttempts: 3,
-    debug: false
+    debug: true
 }
 
 
