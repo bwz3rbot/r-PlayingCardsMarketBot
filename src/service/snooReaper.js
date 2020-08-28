@@ -196,7 +196,7 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
 
         // [Increment Positive]
         if (mentionBody.includes('!positive')) {
-            console.log(`incrementing postive flair count on user ${submissionAuthor}`.green)
+            console.log(`incrementing postive flair count on u/${submissionAuthor}`.green)
             // Assign a flair to the author
 
             newFlair = incrementScore.incrementPositiveCount(authorsFlair)
@@ -206,13 +206,13 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
                 text: newFlair,
                 cssClass: process.env.FLAIR_CSS_CLASS
             })
-            console.log(('users new flair: ' + newFlair).green)
+            console.log((`u/${submissionAuthor}'s new flair: `  + newFlair).green)
 
         }
 
         // [Increment Negative]
         if (mentionBody.includes('!negative')) {
-            console.log(`incrementing negative count on user ${submissionAuthor}`.red)
+            console.log(`incrementing negative count on u/${submissionAuthor}`.red)
 
             newFlair = incrementScore.incrementNegativeCount(authorsFlair)
             requester.getUser(submissionAuthor).assignFlair({
@@ -220,11 +220,11 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
                 text: newFlair,
                 cssClass: process.env.FLAIR_CSS_CLASS
             })
-            console.log(('users new flair: ' + newFlair).green)
+            console.log((`u/${submissionAuthor}'s new flair: ` + newFlair).green)
         }
         // [Increment Neutral]
         if (mentionBody.includes('!neutral')) {
-            console.log(`incrementing neutral count on user ${submissionAuthor}`.white)
+            console.log(`incrementing neutral count on u/${submissionAuthor}`.white)
 
             newFlair = incrementScore.incrementNeutralCount(authorsFlair)
             requester.getUser(submissionAuthor).assignFlair({
@@ -232,7 +232,7 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
                 text: newFlair,
                 cssClass: process.env.FLAIR_CSS_CLASS
             })
-            console.log(('users new flair: ' + newFlair).green)
+            console.log((`u/${submissionAuthor}'s new flair: `  + newFlair).green)
         } else if (!mentionBody.includes('!positive') && !mentionBody.includes('!neutral') && !mentionBody.includes('!negative')) {
             message = `You need to give me a direction!  
             
