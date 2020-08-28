@@ -70,7 +70,7 @@ Give it a minute to finish installing the dependencies. . . Then:
 
 When a user calls the bot, it will receive a mention in its inbox and will respond accordingly.\
 It checks the post it was summoned from, gets the user and updates their user flair by incrementing the current values.\
-A user can summon the bot by calling its username, then passing in a directive\
+A user can summon the bot by calling its username, then passing in a directive.
 
 Requests must be formatted as:
 ```
