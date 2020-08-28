@@ -38,7 +38,8 @@ Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'
 <strong>CLIENT_ID</strong> and <strong>CLIENT_SECRET</strong> are fround in prefs/apps.\
 <strong>REDDIT_USER</strong> is your bots username.\
 <strong>REDDIT_PASS</strong> is its password.\
-<strong>MASTER_SUB</strong> is the subreddit it will work on.
+<strong>MASTER_SUB</strong> is the subreddit it will work on.\
+<strong>FLAIR_CSS_CLASS</strong> can be found in your mod panel on the edit/create user flair form. Make sure you are selecting the css class, and not the ID.
 
 
 
@@ -49,6 +50,7 @@ Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'
     REDDIT_USER=''
     REDDIT_PASS=''
     MASTER_SUB=''
+    FLAIR_CSS_CLASS=''
 
 
 now remove the EXAMPLE from the end of the filename.
