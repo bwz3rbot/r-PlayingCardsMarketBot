@@ -30,6 +30,10 @@ saveRequester.config(config)
 const replyRequester = new Snoowrap(identifier);
 replyRequester.config(config)
 
+// Parent Comment Requester
+const parentCommentRequester = new Snoowrap(identifier);
+parentCommentRequester.config(config)
+
 const MASTER_SUB = process.env.MASTER_SUB
 
 
@@ -68,8 +72,6 @@ const processItem = function (item) {
     console.log('processing item...'.magenta)
 
 
-    // First, Check if item is distinguished. 
-
     mentionFromUser = item.author.name
 
 
@@ -77,8 +79,16 @@ const processItem = function (item) {
     // Mention Must be from MASTER_SUB
     if (item.subreddit_name_prefixed === 'r/' + MASTER_SUB && item.parent_id != null) {
 
+
+
+
+
+
+        topLevelComment = checkTopLevel(item.parent_id)
         // Find the parent_id of the Submission the Comment came from
         parent_id = getParentId(item.parent_id)
+
+
 
 
         console.log(('received mention from u/' + mentionFromUser).green)
@@ -86,16 +96,54 @@ const processItem = function (item) {
         // Get the Submission and retreive its author
         let submissionAuthor;
 
-        submissionRequester.getSubmission(parent_id).fetch().then(function (submission) {
-            submissionAuthor = submission.author.name
-            console.log(('referencing submision by user: u/' + submissionAuthor).grey)
+
+
+        if (topLevelComment) {
+            console.log('was a top level comment. getting the submission')
+
+            // if parent id was from a top level comment, get the submission it was from
+            submissionRequester.getSubmission(parent_id).fetch().then(function (submission) {
+                submissionAuthor = submission.author.name
+
+                // check mentionfromuser vs submissionauthor
+                if (submissionAuthor == mentionFromUser) {
+                    console.log('user attempted to vote on self!'.red)
+                    replyToSender(item.id,`Nice try, but you can't vote on yourself!`)
+                    saveItem(saveRequester,item.id)
+                } else {
+                    console.log(('referencing submision by user: u/' + submissionAuthor).grey)
+                    assignFlairs(flairAssignRequester, item.body, submissionAuthor, item.id)
+                    saveItem(saveRequester, item.id)
+                }
+
+
+            })
+
+        } else if (!topLevelComment) {
+
+            console.log('was a reply to a comment. getting the comment.')
+            // If parent ID was from another comment, fetch it.
+            commentRequester.getComment(parent_id).fetch().then(function (submission) {
+
+
+                submissionAuthor = submission.author.name
+
+                if (submissionAuthor == mentionFromUser) {
+                    console.log('user attempted to vote on self!'.red)
+                    replyToSender(item.id,`Nice try, but you can't vote on yourself!`)
+                    saveItem(saveRequester,item.id)
+                } else {
+                    console.log(('referencing submision by user: u/' + submissionAuthor).grey)
+                    assignFlairs(flairAssignRequester, item.body, submissionAuthor, item.id)
+                    saveItem(saveRequester, item.id)
+                }
+
+            })
+        }
 
 
 
-            assignFlairs(flairAssignRequester, item.body, submissionAuthor, item.id)
-            saveItem(saveRequester, item.id)
 
-        })
 
     } else {
         console.log('Attempted request from unauthorized sub.')
@@ -104,8 +152,23 @@ const processItem = function (item) {
 
 }
 
+const checkTopLevel = function (str) {
+    const regexP = RegExp(/^t3_/)
+    console.log('checking str against regex pattern where str = ' + str)
+
+    if (regexP.test(str)) {
+        console.log('returning true')
+        return true;
+    } else {
+        console.log('returning false')
+        return false;
+    }
+
+}
+
 // 1.A. Return the parent id with the prefix removed
 const getParentId = function (str) {
+    console.log('splitting the string of its identifier: ' + str)
     return str.split('_')[1];
 }
 
@@ -137,9 +200,11 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
             // Assign a flair to the author
 
             newFlair = incrementScore.incrementPositiveCount(authorsFlair)
+            console.log('assigning css class: '+ process.env.FLAIR_CSS_CLASS)
             requester.getUser(submissionAuthor).assignFlair({
                 subredditName: MASTER_SUB,
-                text: newFlair
+                text: newFlair,
+                cssClass: process.env.FLAIR_CSS_CLASS
             })
             console.log(('users new flair: ' + newFlair).green)
 
@@ -152,7 +217,8 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
             newFlair = incrementScore.incrementNegativeCount(authorsFlair)
             requester.getUser(submissionAuthor).assignFlair({
                 subredditName: MASTER_SUB,
-                text: newFlair
+                text: newFlair,
+                cssClass: process.env.FLAIR_CSS_CLASS
             })
             console.log(('users new flair: ' + newFlair).green)
         }
@@ -163,7 +229,8 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
             newFlair = incrementScore.incrementNeutralCount(authorsFlair)
             requester.getUser(submissionAuthor).assignFlair({
                 subredditName: MASTER_SUB,
-                text: newFlair
+                text: newFlair,
+                cssClass: process.env.FLAIR_CSS_CLASS
             })
             console.log(('users new flair: ' + newFlair).green)
         } else if (!mentionBody.includes('!positive') && !mentionBody.includes('!neutral') && !mentionBody.includes('!negative')) {
@@ -171,9 +238,9 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
             
             To cast your vote successfully:  
             
-            u/SnootyScraper !positive
-            u/SnootyScraper !neutral
-            u/SnootyScraper !negative`
+            u/${pv.env.REDDIT_USER} !positive
+            u/${pv.env.REDDIT_USER} !neutral
+            u/${pv.env.REDDIT_USER} !negative`
             console.log('user did not call me with a directive!'.red)
         }
 
