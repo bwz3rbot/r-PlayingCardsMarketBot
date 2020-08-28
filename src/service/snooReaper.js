@@ -99,7 +99,7 @@ const processItem = function (item) {
 
 
         if (topLevelComment) {
-            console.log('was a top level comment. getting the submission')
+            console.log('was a top level comment. getting the submission'.magenta)
 
             // if parent id was from a top level comment, get the submission it was from
             submissionRequester.getSubmission(parent_id).fetch().then(function (submission) {
@@ -107,9 +107,9 @@ const processItem = function (item) {
 
                 // check mentionfromuser vs submissionauthor
                 if (submissionAuthor == mentionFromUser) {
-                    console.log('user attempted to vote on self!'.red)
-                    replyToSender(item.id,`Nice try, but you can't vote on yourself!`)
-                    saveItem(saveRequester,item.id)
+                    console.log(`user ${mentionFromUser} attempted to cast vote on self!`.red)
+                    replyToSender(item.id, `Nice try, but you can't vote on yourself!`)
+                    saveItem(saveRequester, item.id)
                 } else {
                     console.log(('referencing submision by user: u/' + submissionAuthor).grey)
                     assignFlairs(flairAssignRequester, item.body, submissionAuthor, item.id)
@@ -121,7 +121,7 @@ const processItem = function (item) {
 
         } else if (!topLevelComment) {
 
-            console.log('was a reply to a comment. getting the comment.')
+            console.log('was a reply to a comment. fetching the comment.'.magenta)
             // If parent ID was from another comment, fetch it.
             commentRequester.getComment(parent_id).fetch().then(function (submission) {
 
@@ -129,11 +129,11 @@ const processItem = function (item) {
                 submissionAuthor = submission.author.name
 
                 if (submissionAuthor == mentionFromUser) {
-                    console.log('user attempted to vote on self!'.red)
-                    replyToSender(item.id,`Nice try, but you can't vote on yourself!`)
-                    saveItem(saveRequester,item.id)
+                    console.log(`user ${mentionFromUser} attempted to cast vote on self!`.red)
+                    replyToSender(item.id, `Nice try, but you can't vote on yourself!`)
+                    saveItem(saveRequester, item.id)
                 } else {
-                    console.log(('referencing submision by user: u/' + submissionAuthor).grey)
+                    console.log(('referencing comment by user: u/' + submissionAuthor).grey)
                     assignFlairs(flairAssignRequester, item.body, submissionAuthor, item.id)
                     saveItem(saveRequester, item.id)
                 }
@@ -154,13 +154,13 @@ const processItem = function (item) {
 
 const checkTopLevel = function (str) {
     const regexP = RegExp(/^t3_/)
-    console.log('checking str against regex pattern where str = ' + str)
+
 
     if (regexP.test(str)) {
-        console.log('returning true')
+
         return true;
     } else {
-        console.log('returning false')
+
         return false;
     }
 
@@ -168,7 +168,7 @@ const checkTopLevel = function (str) {
 
 // 1.A. Return the parent id with the prefix removed
 const getParentId = function (str) {
-    console.log('splitting the string of its identifier: ' + str)
+
     return str.split('_')[1];
 }
 
@@ -200,7 +200,7 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
             // Assign a flair to the author
 
             newFlair = incrementScore.incrementPositiveCount(authorsFlair)
-            console.log('assigning css class: '+ process.env.FLAIR_CSS_CLASS)
+
             requester.getUser(submissionAuthor).assignFlair({
                 subredditName: MASTER_SUB,
                 text: newFlair,
