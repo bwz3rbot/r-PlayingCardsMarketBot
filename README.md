@@ -1,4 +1,4 @@
-# approve_o_bot
+# r/PlayingCardsMarketBot
 
 ## Table of Contents
 
@@ -33,7 +33,12 @@ Once the account is created, log in, go to this url(reddit.com/prefs/apps), and 
 Now that you've set up your bot account, granted it permissions on your subreddit, and created a script app, it's time to download the source code and paste in your environment variables.
 
 Download the .zip file containing the source code on this page. Unzip it and save it to your computer somewhere. Now open up the pw.envEXAMPLE file.\
-Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'll find there. User agent is just a name that the server will identify your bot by. It can be whatever you want.
+Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'll find there.\
+<strong>USER_AGENT</strong> is just a name that the server will identify your bot by. It can be whatever you want.\
+<strong>CLIENT_ID</strong> and <strong>CLIENT_SECRET</strong> are fround in prefs/apps.\
+<strong>REDDIT_USER</strong> is your bots username.\
+<strong>REDDIT_PASS</strong> is its password.\
+<strong>MASTER_SUB</strong> is the subreddit it will work on.
 
 
 
