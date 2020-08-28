@@ -87,4 +87,4 @@ Mentions will also be saved in the bots account, under <em>saved</em>.
 
 Just keep a terminal open with it running.
 
-As long as your internet is connected, it should continuously scan for mentions every 20 seconds.
+As long as your internet is connected, it should continuously scan for mentions every 10 seconds.
