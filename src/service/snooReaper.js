@@ -99,7 +99,7 @@ const processItem = function (item) {
 
 
         if (topLevelComment) {
-            console.log('was a top level comment. getting the submission'.magenta)
+            console.log('was a top level comment. fetching the submission'.magenta)
 
             // if parent id was from a top level comment, get the submission it was from
             submissionRequester.getSubmission(parent_id).fetch().then(function (submission) {
@@ -107,7 +107,7 @@ const processItem = function (item) {
 
                 // check mentionfromuser vs submissionauthor
                 if (submissionAuthor == mentionFromUser) {
-                    console.log(`user ${mentionFromUser} attempted to cast vote on self!`.red)
+                    console.log(`u/${mentionFromUser} attempted to cast vote on self!`.red)
                     replyToSender(item.id, `Nice try, but you can't vote on yourself!`)
                     saveItem(saveRequester, item.id)
                 } else {
@@ -129,7 +129,7 @@ const processItem = function (item) {
                 submissionAuthor = submission.author.name
 
                 if (submissionAuthor == mentionFromUser) {
-                    console.log(`user ${mentionFromUser} attempted to cast vote on self!`.red)
+                    console.log(`u/${mentionFromUser} attempted to cast vote on self!`.red)
                     replyToSender(item.id, `Nice try, but you can't vote on yourself!`)
                     saveItem(saveRequester, item.id)
                 } else {
@@ -241,7 +241,7 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
             u/${process.env.REDDIT_USER} !positive
             u/${process.env.REDDIT_USER} !neutral
             u/${process.env.REDDIT_USER} !negative`
-            console.log('user did not call me with a directive!'.red)
+            console.log(`u/${mentionFromUser} did not call me with a directive!`.red)
         }
 
         replyToSender(itemId, message)
