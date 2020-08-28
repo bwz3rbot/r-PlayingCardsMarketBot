@@ -238,9 +238,9 @@ const assignFlairs = function (requester, body, submissionAuthor, itemId) {
             
             To cast your vote successfully:  
             
-            u/${pv.env.REDDIT_USER} !positive
-            u/${pv.env.REDDIT_USER} !neutral
-            u/${pv.env.REDDIT_USER} !negative`
+            u/${process.env.REDDIT_USER} !positive
+            u/${process.env.REDDIT_USER} !neutral
+            u/${process.env.REDDIT_USER} !negative`
             console.log('user did not call me with a directive!'.red)
         }
 
