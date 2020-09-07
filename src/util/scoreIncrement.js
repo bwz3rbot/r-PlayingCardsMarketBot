@@ -19,7 +19,7 @@ const incrementNeutralCount = function (str) {
     return value
 }
 
-// Increment Positive Count
+// Increment Negative Count
 const incrementNegativeCount = function (str) {
     validatePattern(str)
     value = str.replace(/(Negative: )(\d+)/ig, function ($0, $1, $2) {
