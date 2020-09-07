@@ -10,6 +10,10 @@ const
 
 
 
+// Please don't use this disgusting mess! There was a problem with Snoowrap that required the use of multiple requesters
+// This has been fixed in the update tree https://github.com/web-temps/r-PlayingCardsMarketBot/tree/update
+// Please use that version instead.
+
 // Submission Requester
 const submissionRequester = new Snoowrap(identifier);
 submissionRequester.config(config);
