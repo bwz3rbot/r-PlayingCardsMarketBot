@@ -52,7 +52,7 @@ Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'
     REDDIT_PASS=''
     MASTER_SUB=''
     FLAIR_CSS_CLASS=''
-    LIMIT:''
+    LIMIT=''
 
 
 now remove the EXAMPLE from the end of the filename.
