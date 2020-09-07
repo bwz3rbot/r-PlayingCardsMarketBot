@@ -9,6 +9,9 @@
 
 ## About <a name = "about"></a>
 
+# PLEASE USE THE UPDATED VERSION IN THE 'update' BRANCH. https://github.com/web-temps/r-PlayingCardsMarketBot/tree/update
+#THIS IS ONLY HERE FOR REFERENCE. THANK YOU :)
+
 This bot was created specifcally for r/PlayingCardsMarket. If you attempt to run it on any other sub, it will not work, and will possibly break your user flairs. The bot takes votes from buyers who have dealt with a seller, either successfully, or unsuccessfully, and updates the sellers' user flair. It takes the current values it finds within the user flair (Positive: ?? Negative: ?? Neutral: ??) and increments them according to a user directive when summoned.
 
 
