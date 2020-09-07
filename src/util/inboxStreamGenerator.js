@@ -7,7 +7,8 @@ const
     BotService = require('../service/BotService'),
     timeout = 20000,
     logging = false
-    limit = 5;
+
+    let limit = parseInt(process.env.LIMIT);
 
 // [Mention Emitter Class (extends EventEmitter)]
 class MentionEmitter extends EventEmitter {

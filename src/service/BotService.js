@@ -21,9 +21,11 @@ async function doSomething(item) {
         let d = new Date();
         formattedDate = dateFormat(d)
         console.log(`\n--------------------${formattedDate}--------------------`.blue)
-        console.log(
-            `\n\tFrom: u/${item.author.name}\n\tRequest: ${item.body}`.grey +'\n'
-        )
+        console.log(`new request!`.yellow)
+        console.log('processing item....'.magenta)
+        console.log(`received mention from u/${item.author.name}`.green)
+        console.log(`'${item.body}'`)
+
 
         // Process the item
         await checkMasterSub(item)
@@ -32,16 +34,26 @@ async function doSomething(item) {
             .then((releventItem) => designateFlairs(releventItem))
             .then((msg) => replyWithMessage(msg))
             .then(() => saveItem(item))
+            .then(() => {
+                console.log(`item '${item.id}' successfully processed!`.green)
+            })
             .catch((err) => {
                 if (err.id != 0) {
                     replyWithMessage(err)
                         .then(() => saveItem(item))
+                        .then(() => {
+                            console.log(`item '${item.id}' successfully processed!`.green)
+                        })
                 } else {
-                    console.log(msg.message)
+                    saveItem(item)
+                        .then(() => {
+                            console.log(err.message)
+                        })
+
                 }
             })
 
-        return console.log(`item '${item.id}' successfully processed!`.green)
+        return ""
 
 
 
@@ -50,7 +62,7 @@ async function doSomething(item) {
 
 
     } else {
-        return console.log(`item '${item.id}' already saved. skipping.`.grey)
+        return console.log(`\nitem '${item.id}' already saved. skipping.`.grey)
     }
 }
 //// PlayingCardsMarket Bot
@@ -101,6 +113,7 @@ const getReleventItem = async function (promiseObj) {
     wasTopLevel = promiseObj.wasTopLevel
     // If was top level:
     if (promiseObj.wasTopLevel) {
+        console.log('was a top level comment. fetching the submission'.magenta)
         const submission = await fetchSubmission(promiseObj.mention.parent_id)
         releventItem.submission = submission
         releventItem.childComment = promiseObj.mention
@@ -109,10 +122,12 @@ const getReleventItem = async function (promiseObj) {
 
         // If was not top level:
     } else if (!promiseObj.wasTopLevel) {
+        console.log('was not top level comment. fetching the parent comment'.magenta)
         const comment = await fetchComment(promiseObj.mention.parent_id)
 
         releventItem.submission = comment
         releventItem.childComment = promiseObj.mention
+        releventItem.wasTopLevel = promiseObj.wasTopLevel
 
         return Promise.resolve(releventItem)
 
@@ -132,10 +147,11 @@ const fetchComment = function (id) {
 
 // 4. Assign Flairs OR Reject the Request
 async function designateFlairs(releventItem) {
+
     console.log(`referencing u/${releventItem.submission.author.name}`.yellow)
 
     if (releventItem.submission.author.name === releventItem.childComment.author.name) {
-        console.log('user attempted to vote on self!'.red)
+        console.log('USER ATTEMPTED TO VOTE ON SELF!'.red)
         err = {
             id: releventItem.childComment.id,
             message: "Nice try! You can't vote on yourself!"
@@ -143,9 +159,8 @@ async function designateFlairs(releventItem) {
         return Promise.reject(err)
     }
 
-    console.log('NO ERROR FOUND... CONTINUEING'.green)
+
     let author_flair = String;
-    console.log(`assigning flairs...`.magenta)
     directive = promiseObj.mention.body
 
     // If no direcive, ignore request.
@@ -171,7 +186,6 @@ async function designateFlairs(releventItem) {
 
 
     // else, designate the flairs
-    console.log(`getting current user flair of u/${releventItem.submission.author.name}`.green)
     const userFlair = await requester.getSubreddit(process.env.MASTER_SUB).getUserFlair(releventItem.submission.author.name)
 
     flair = userFlair.flair_text;
@@ -211,7 +225,7 @@ async function designateFlairs(releventItem) {
 }
 
 async function assignFlair(author, flair) {
-    console.log(`assigning updated flair: (${flair}) to u/${author}`.yellow)
+    console.log(`new flair: `.magenta + flair.grey)
 
     const userFlair = await requester.getUser(author).assignFlair({
         subredditName: MASTER_SUB,
@@ -222,6 +236,8 @@ async function assignFlair(author, flair) {
 }
 
 const replyWithMessage = function (msg) {
+    console.log(`replying with message:`.magenta)
+    console.log("\t" + msg.message.grey)
     return requester.getComment(msg.id).reply(msg.message);
 
 }
@@ -232,7 +248,6 @@ const replyWithMessage = function (msg) {
 // 
 // Leave this function alone!
 const saveItem = function (item) {
-    console.log(`saving the comment...`.magenta)
     return requester.getComment(item.id).save();
 }
 module.exports = {
