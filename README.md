@@ -1,5 +1,4 @@
-# RedditBot Template for JavaScript
-Snoowrap mention messaging queue
+# r/PlayingCardsMarketBot
 
 ## Table of Contents
 
@@ -7,49 +6,88 @@ Snoowrap mention messaging queue
 - [Getting Started](#getting_started)
 - [Usage](#usage)
 
+
 ## About <a name = "about"></a>
 
-This is a template for a Reddit bot in JavaScript. It uses Snoowrap with two requesters, one to create a messaging queue, and another to process the mentions. If you've tried using Snoosorm to generate a stream from your inbox before, you may have run into a problem, where there is a need to utilize multiple requesters to complete API transactions. Well the fix is a messaging queue! This bot template is a simplified version of the ever popular Snoostorm library. It contains a messaging queue function (that Snoostorm was lacking!) to get around the problem of requiring many requesters.
+## PLEASE USE THE UPDATED VERSION IN THE 'update' BRANCH. https://github.com/web-temps/r-PlayingCardsMarketBot/tree/update
+## THIS IS ONLY HERE FOR REFERENCE. THANK YOU :)
+
+This bot was created specifcally for r/PlayingCardsMarket. If you attempt to run it on any other sub, it will not work, and will possibly break your user flairs. The bot takes votes from buyers who have dealt with a seller, either successfully, or unsuccessfully, and updates the sellers' user flair. It takes the current values it finds within the user flair (Positive: ?? Negative: ?? Neutral: ??) and increments them according to a user directive when summoned.
+
 
 ## Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a copy of the bot up and running on your local machine.
 
-### Prerequisites
 
-This application runs on NodeJS. You must have NodeJS to run it.
+## Prerequisites
 
-### Installing
+Make sure you have the correct version of NodeJS for your system. You can find the download here(https://nodejs.org/en/download/)
 
-A step by step series of examples that tell you how to get a development env running.
+You'll have to create a new account for your bot before you move any further.\
+And you'll have to grant the account permissions on your subreddit.\
+Once the account is created, log in, go to this url(reddit.com/prefs/apps), and fill out the form to create a new script app.
 
-Download the source code...
 
-Run this command...
+<img src='https://i.imgur.com/yq8akJ7.png'>
 
-```
-npm install
-```
+## Installing
 
-Of course you will find these values at https://www.reddit.com/prefs/apps/
-```
-USER_AGENT=''
-CLIENT_ID=''
-CLIENT_SECRET=''
-REDDIT_USER=''
-REDDIT_PASS=''
-```
+Now that you've set up your bot account, granted it permissions on your subreddit, and created a script app, it's time to download the source code and paste in your environment variables.
 
-And begin coding your bot!
+Download the .zip file containing the source code on this page. Unzip it and save it to your computer somewhere. Now open up the pw.envEXAMPLE file.\
+Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'll find there.\
+<strong>USER_AGENT</strong> is just a name that the server will identify your bot by. It can be whatever you want.\
+<strong>CLIENT_ID</strong> and <strong>CLIENT_SECRET</strong> are fround in prefs/apps.\
+<strong>REDDIT_USER</strong> is your bots username.\
+<strong>REDDIT_PASS</strong> is its password.\
+<strong>MASTER_SUB</strong> is the subreddit it will work on.\
+<strong>FLAIR_CSS_CLASS</strong> can be found in your mod panel on the edit/create user flair form. Make sure you are selecting the css class, and not the ID.
+
+
+
+
+    USER_AGENT=''
+    CLIENT_ID=''
+    CLIENT_SECRET=''
+    REDDIT_USER=''
+    REDDIT_PASS=''
+    MASTER_SUB=''
+    FLAIR_CSS_CLASS=''
+
+
+now remove the EXAMPLE from the end of the filename.
+
+> pw.envEXAMPLE = pw.env
+
+Now go back to your terminal and cd into the folder. Run this command to install the dependencies required to run a reddit bot in JavaScript.
+
+> npm install
+
+Give it a minute to finish installing the dependencies. . . Then:
+
+
+> node src/app.js
+
 
 ## Usage <a name = "usage"></a>
 
-Open up the file: src/service/BotService.js
 
-Write your functions in this file, put your code within doSomething().
+When a user calls the bot, it will receive a mention in its inbox and will respond accordingly.\
+It checks the post it was summoned from, gets the user and updates their user flair by incrementing the current values.\
+A user can summon the bot by calling its username, then passing in a directive.
 
-doSomething() will be called each time a new mention is received.
+Requests must be formatted as:
+```
+u/SnootyScraper !positive
+u/SnootyScraper !negative
+u/SnootyScraper !neutral
+```
+The request and response will be logged in the terminal for you to review, along with the date and time and the user who requested the bot.\
+Mentions will also be saved in the bots account, under <em>saved</em>.
 
-It will be passed a pre-fetched comment object, from your inbox.
 
-doSomething() must return a Promise Object. The resulting function doesn't actually do anything with it, but to complete the promise chain, it is required.
+
+Just keep a terminal open with it running.
+
+As long as your internet is connected, it should continuously scan for mentions every 10 seconds.
