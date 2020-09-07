@@ -9,7 +9,7 @@
 
 ## About <a name = "about"></a>
 
-This bot was created specifcally for r/PlayingCardsMarket. The bot takes votes from buyers who have dealt with a seller, either successfully, or unsuccessfully, and updates the sellers' user flair. It takes the current values it finds within the user flair (Positive: ?? Negative: ?? Neutral: ??) and increments them according to a user directive when summoned.
+This bot was crafted for r/PlayingCardsMarket. The bot takes votes from those who have dealt with an other user, either successfully, or unsuccessfully, and updates that user's flair accordingly. It takes the current values it finds within the user flair (Positive: ?? Negative: ?? Neutral: ??) and increments them according to a user directive when summoned.
 
 
 ## Getting Started <a name = "getting_started"></a>
