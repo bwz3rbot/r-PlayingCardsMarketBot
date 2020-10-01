@@ -6,3 +6,4 @@ REDDIT_PASS=''
 MASTER_SUB=''
 FLAIR_CSS_CLASS='my-css-class'
 LIMIT="10"
+DEBUG=true

@@ -10,13 +10,16 @@ const auth = {
     password: process.env.REDDIT_PASS
 }
 
+
+
+
 const config = {
     requestDelay: 5000,
     warnings: true,
     continueAfterRatelimitError: false,
     retryErrorCodes: [502, 504, 522, 503],
     maxRetryAttempts: 10,
-    debug: false
+    debug: JSON.parse(process.env.DEBUG)
 }
 
 
