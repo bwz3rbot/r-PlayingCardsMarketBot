@@ -6,7 +6,7 @@ const
     actionRequester = require('../config/snoo-config').actionRequester,
     BotService = require('../service/BotService'),
     timeout = 20000,
-    logging = false
+    logging = false;
 
     let limit = parseInt(process.env.LIMIT);
 
@@ -32,7 +32,7 @@ const getInbox = function () {
     }
 
     return snoowrap.getInbox({
-        filter: 'unread',
+        filter: 'mentions',
         limit: limit
     })
 }

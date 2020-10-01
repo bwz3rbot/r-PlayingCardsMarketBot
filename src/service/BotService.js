@@ -13,8 +13,6 @@ let promiseObj = {}
 // The InboxStreamGenerator will always give you the first 5 mentions - unread or not
 // So be sure to be save-checking saving and every time!
 async function doSomething(item) {
-
-
     // Checking if the item was saved will keep the bot from processing anything twice.
     if (!item.saved) {
         // Show date/time
@@ -237,7 +235,7 @@ async function assignFlair(author, flair) {
 
 const replyWithMessage = function (msg) {
     console.log(`replying with message:`.magenta)
-    console.log("\t" + msg.message.grey)
+    console.log(msg.message.grey)
     return requester.getComment(msg.id).reply(msg.message);
 
 }
