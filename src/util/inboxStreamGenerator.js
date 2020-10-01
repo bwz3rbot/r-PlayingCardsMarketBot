@@ -8,7 +8,7 @@ const
     timeout = 20000,
     logging = false;
 
-    let limit = parseInt(process.env.LIMIT);
+const limit = parseInt(process.env.LIMIT);
 
 // [Mention Emitter Class (extends EventEmitter)]
 class MentionEmitter extends EventEmitter {
@@ -50,10 +50,10 @@ const streamInMentions = function () {
 
     // 3.a) Checks inbox at an interval of 20 seconds
     setInterval(() => {
-        if(logging){
+        if (logging) {
             console.log("checking again...")
         }
-        
+
         snoowrap.getInbox({
             filter: 'mentions',
             limit: 10
