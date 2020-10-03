@@ -6,7 +6,7 @@ const
     actionRequester = require('../config/snoo-config').actionRequester,
     BotService = require('../service/BotService'),
     timeout = 20000,
-    logging = false;
+    logging = JSON.parse(process.env.DEBUG_CODE);
 
 const limit = parseInt(process.env.LIMIT);
 
